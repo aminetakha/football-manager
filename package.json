@@ -1,0 +1,30 @@
+{
+  "name": "football-manager",
+  "version": "1.0.0",
+  "description": "Football Online Manager",
+  "main": "src/index.ts",
+  "scripts": {
+    "start:build": "tsc --w",
+    "start:run": "nodemon dist/index.js",
+    "start": "concurrently npm:start:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aminetakha/football-manager.git"
+  },
+  "author": "Amine Takha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aminetakha/football-manager/issues"
+  },
+  "homepage": "https://github.com/aminetakha/football-manager#readme",
+  "dependencies": {
+    "concurrently": "^9.1.2",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "nodemon": "^3.1.9"
+  }
+}
