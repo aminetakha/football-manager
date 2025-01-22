@@ -1,13 +1,45 @@
 import 'dotenv/config'
 import express from 'express';
+import { RedisStore } from "connect-redis"
+import { createClient } from "redis";
+import session from "express-session";
+import { app } from './app';
+import router from './routes';
+import errorHandler from './middlewares/errorHandler';
+const { SERVER_PORT: PORT, SESSION_SECRET, SESSION_MAX_AGE, NODE_ENV } = process.env;
 
-const app = express();
-const PORT = process.env.SERVER_PORT;
+const main = async () => {
+  try {
+    const redisClient = createClient()
+    await redisClient.connect()
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
+    app.use(express.json());
+    app.use(session({
+      store: new RedisStore({ client: redisClient }),
+      secret: SESSION_SECRET as string,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        secure: NODE_ENV === 'production',
+        httpOnly: true,
+        maxAge: parseInt(SESSION_MAX_AGE as string),
+      }
+    }))
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port: ${PORT}`);
-});
+    app.use(router);
+    
+    app.get('/', (req, res) => {
+      res.send('Hello');
+    });
+    app.use(errorHandler);
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on port: ${PORT}`);
+    });
+
+  } catch (error) {
+    console.error('Error starting server:', error);
+  }
+}
+
+main();
