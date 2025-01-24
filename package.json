@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/aminetakha/football-manager#readme",
   "dependencies": {
+    "@faker-js/faker": "^9.4.0",
     "concurrently": "^9.1.2",
     "connect-redis": "^8.0.1",
     "dotenv": "^16.4.7",

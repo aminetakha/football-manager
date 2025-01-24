@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import path from 'path'
 import express from 'express';
 import { RedisStore } from "connect-redis"
 import { createClient } from "redis";
@@ -10,9 +11,10 @@ const { SERVER_PORT: PORT, SESSION_SECRET, SESSION_MAX_AGE, NODE_ENV } = process
 
 const main = async () => {
   try {
-    const redisClient = createClient()
-    await redisClient.connect()
-
+    const redisClient = createClient();
+    await redisClient.connect();
+    
+    app.use(express.static(path.join(__dirname, '../public')));
     app.use(express.json());
     app.use(session({
       store: new RedisStore({ client: redisClient }),

@@ -1,0 +1,18 @@
+{
+    "teams": [
+        { "name": "Ajax Amsterdam", "short_name": "AJA", "badge": "ajax.svg" },
+        { "name": "Arsenal Football Club", "short_name": "ARS", "badge": "arsenal.svg" },
+        { "name": "Club Atlético de Madrid", "short_name": "ATM", "badge": "atletico-madrid.svg" },
+        { "name": "FC Barcelona", "short_name": "BAR", "badge": "barcelona.svg" },
+        { "name": "FC Bayern Munich", "short_name": "BAY", "badge": "bayern.svg" },
+        { "name": "Chelsea Football Club", "short_name": "CHE", "badge": "chelsea.svg" },
+        { "name": "Borussia Dortmund", "short_name": "DOR", "badge": "dortmund.svg" },
+        { "name": "FC Internazionale Milano", "short_name": "INT", "badge": "inter-milan.svg" },
+        { "name": "Juventus Football Club", "short_name": "JUV", "badge": "juventus.svg" },
+        { "name": "SS Lazio", "short_name": "LAZ", "badge": "lazio.svg" },
+        { "name": "Liverpool FC", "short_name": "LIV", "badge": "liverpool.svg" },
+        { "name": "Manchester City FC", "short_name": "MCI", "badge": "manchester-city.svg" },
+        { "name": "AS Monaco FC", "short_name": "MON", "badge": "monaco.svg" },
+        { "name": "Real Madrid CF", "short_name": "RMA", "badge": "real-madrid.svg" }
+    ]
+}

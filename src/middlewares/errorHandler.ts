@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { getErrorMessage, ValidationError } from "../utils/errors";
+import { isJSON } from "../utils/functions";
 
 const errorHandler = (error: unknown, req: Request, res: Response, next: NextFunction) => {
   if (res.headersSent) {
@@ -7,7 +8,8 @@ const errorHandler = (error: unknown, req: Request, res: Response, next: NextFun
   }
 
   if(error instanceof ValidationError){
-    res.status(error.statusCode).json({ message: error.message })
+    const { result, value } = isJSON(error.message)
+    res.status(error.statusCode).json({ message: result? value : error.message })
     return;
   }
 
