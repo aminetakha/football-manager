@@ -23,4 +23,17 @@ authRouter.post('/', validateInputs, async (req, res, next) => {
     }
 });
 
+authRouter.get('/me', async (req, res, next) => {
+    try {
+        const user = req.session.user;
+        if(user){
+            res.status(200).json({ user });
+            return;
+        }
+        res.status(401).json({ message: 'Not authorized' })
+    } catch (error) {
+        next(error);
+    }
+})
+
 export default authRouter
