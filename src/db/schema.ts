@@ -29,7 +29,15 @@ export const players = mysqlTable('players', {
   teamId: int('team_id'),
   created_at: date().default(new Date()),
   updated_at: date().default(new Date()),
-})
+});
+
+export const transferMarket = mysqlTable('transfer_market', {
+  id: serial().primaryKey(),
+  outTeamId: int('out_id').notNull(),
+  inTeamId: int('in_id'),
+  playerId: int('player_id').notNull(),
+  price: double().notNull(),
+});
 
 export const usersRelations = relations(users, ({ one }) => ({
 	teams: one(teams, {
@@ -51,4 +59,9 @@ export const playersRelations = relations(players, ({ one }) => ({
     fields: [players.teamId],
     references: [teams.id],
   })
-}))
+}));
+
+export const transferMarketRelations = relations(transferMarket, ({ many }) => ({
+  players: many(players),
+  teams: many(teams),
+}));
