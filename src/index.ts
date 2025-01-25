@@ -4,10 +4,11 @@ import express from 'express';
 import { RedisStore } from "connect-redis"
 import { createClient } from "redis";
 import session from "express-session";
+import cors from 'cors';
 import { app } from './app';
 import router from './routes';
 import errorHandler from './middlewares/errorHandler';
-const { SERVER_PORT: PORT, SESSION_SECRET, SESSION_MAX_AGE, NODE_ENV } = process.env;
+const { SERVER_PORT: PORT, SESSION_SECRET, SESSION_MAX_AGE, NODE_ENV, ALLOWED_ORIGIN } = process.env;
 
 const main = async () => {
   try {
@@ -27,7 +28,10 @@ const main = async () => {
         maxAge: parseInt(SESSION_MAX_AGE as string),
       }
     }))
-
+    app.use(cors({
+      credentials: true,
+      origin: ALLOWED_ORIGIN,
+    }));
     app.use(router);
     
     app.get('/', (req, res) => {
