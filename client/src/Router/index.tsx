@@ -8,9 +8,9 @@ import PrivateRoute from '../components/PrivateRoute';
 const Router = () => {
     return (
         <Routes>
-            <Route path='login' element={<LoggedOutRoute><Login /></LoggedOutRoute>} />
-            <Route path='teams' element={<PrivateRoute><Team /></PrivateRoute>} />
+            <Route index path='' element={<PrivateRoute><Team /></PrivateRoute>} />
             <Route path='transfer' element={<PrivateRoute><Market /></PrivateRoute>} />
+            <Route path='login' element={<LoggedOutRoute><Login /></LoggedOutRoute>} />
         </Routes>
     )
 }

@@ -1,3 +1,10 @@
 import { createContext } from "react";
+import { User } from "../types";
 
-export const AuthContext = createContext<{ user: null }>({ user: null });
+export const AuthContext = createContext<{
+    user: User;
+    signUser: (data: User) => void;
+}>({
+    user: null,
+    signUser: () => {},
+});

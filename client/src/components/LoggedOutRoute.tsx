@@ -5,7 +5,7 @@ const LoggedOutRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
     const { user } = useAuth();
     
     if (user) {
-        return <Navigate to="/teams" replace />;
+        return <Navigate to="/" replace />;
     }
 
     return children;

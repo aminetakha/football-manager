@@ -8,7 +8,7 @@ import cors from 'cors';
 import { app } from './app';
 import router from './routes';
 import errorHandler from './middlewares/errorHandler';
-const { SERVER_PORT: PORT, SESSION_SECRET, SESSION_MAX_AGE, NODE_ENV, ALLOWED_ORIGIN } = process.env;
+const { SERVER_PORT: PORT, SESSION_SECRET, SESSION_MAX_AGE, NODE_ENV, ALLOWED_ORIGIN, COOKIE_DOMAIN } = process.env;
 
 const main = async () => {
   try {
@@ -26,7 +26,9 @@ const main = async () => {
         secure: NODE_ENV === 'production',
         httpOnly: true,
         maxAge: parseInt(SESSION_MAX_AGE as string),
-      }
+        domain: COOKIE_DOMAIN,
+        sameSite: 'lax'
+      },
     }))
     app.use(cors({
       credentials: true,
