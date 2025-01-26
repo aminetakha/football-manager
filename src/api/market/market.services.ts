@@ -29,12 +29,17 @@ export const getMarketTransfers = async ({ player_name, team_id, price }: { play
     const result = await db
         .select({
             id: transferMarket.id,
+            player_id: players.id,
             player_name: players.player_name,
             player_position: players.position,
             player_price: players.market_price,
             in_team: inTeam.name,
+            in_team_id: inTeam.id,
+            in_team_short: inTeam.short_name,
             in_team_badge: inTeam.badge,
             out_team: outTeam.name,
+            out_team_id: outTeam.id,
+            out_team_short: outTeam.short_name,
             out_team_badge: outTeam.badge,
             price: transferMarket.price
         })

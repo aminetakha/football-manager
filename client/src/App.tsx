@@ -1,16 +1,17 @@
 import { useState } from 'react'
+import { useQuery } from 'react-query'
 import './App.css'
 import { AuthContext } from './contexts/AuthContext'
 import Router from "./Router"
 import { User } from './types'
-import { useQuery } from 'react-query'
 import authApi from './api/authApi'
+import keys from './api/keys'
 
 const App = () => {
   const [user, setUser] = useState<User>(null);
   const getCurrentUser = useQuery({
     queryFn: authApi.getMe,
-    queryKey: ['me'],
+    queryKey: keys.getMeKey(),
     onSuccess(data) {
       setUser(data.user);
     },

@@ -15,7 +15,7 @@ const TeamDasboard = () => {
   const team = useQuery({
     queryFn: () => teamApi.getUserTeam(user?.id as number),
     queryKey: keys.teamKey(user?.id),
-    enabled: user?.hasTeam || shouldFetchTeam
+    enabled: user?.hasTeam || shouldFetchTeam,
   })
 
   useEffect(() => {

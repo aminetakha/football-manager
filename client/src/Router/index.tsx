@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router';
 import Login from '../features/auth';
 import Team from '../features/teams';
-import Market from '../features/Market';
+import Market from '../features/market';
 import LoggedOutRoute from '../components/LoggedOutRoute';
 import PrivateRoute from '../components/PrivateRoute';
 

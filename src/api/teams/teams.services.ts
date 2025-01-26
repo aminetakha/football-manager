@@ -41,3 +41,8 @@ export const getUserTeamData = async (userId: number) => {
 
     return formattedTeams;
 }
+
+export const getAllTeams = async () => {
+    const result = await db.select({ value: teams.id, label: teams.name }).from(teams);
+    return result.map(team => ({ value: team.value.toString(), label: team.label }));
+}

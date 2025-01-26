@@ -23,3 +23,20 @@ export type Team = {
     updated_at: string;
     players: Player[];
 };
+
+export type Market = {
+    id: number;
+    player_id: number;
+    player_name: string;
+    player_position: string;
+    player_price: number;
+    in_team: string | null;
+    in_team_id: number | null;
+    in_team_short: string | null;
+    in_team_badge: string | null;
+    out_team: string | null;
+    out_team_id: number | null;
+    out_team_short: string | null;
+    out_team_badge: string | null;
+    price: number;
+}

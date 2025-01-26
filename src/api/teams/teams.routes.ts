@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import path from 'path';
 import { fork } from 'child_process';
 import { Router } from "express";
-import { getUserTeamData, getUserTeamInfo } from './teams.services';
+import { getAllTeams, getUserTeamData, getUserTeamInfo } from './teams.services';
 
 const teamsRouter = Router();
 const teamCreationEvent = new EventEmitter();
@@ -72,6 +72,24 @@ teamsRouter.get('/:user_id', async (req, res, next) => {
     try {
         const teamData = await getUserTeamData(Number(req.params.user_id));
         res.status(200).json(teamData);
+    } catch (error) {
+        next(error);
+    }
+})
+
+teamsRouter.get('/info/:user_id', async (req, res, next) => {
+    try {
+        const team = await getUserTeamInfo(Number(req.params.user_id));
+        res.status(200).json(team);
+    } catch (error) {
+        next(error);
+    }
+})
+
+teamsRouter.get('/', async (req, res, next) => {
+    try {
+        const teams = await getAllTeams();
+        res.status(200).json(teams);
     } catch (error) {
         next(error);
     }
