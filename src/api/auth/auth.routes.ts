@@ -1,7 +1,7 @@
 import express from 'express';
 import { promisify } from 'util'
 import { authenticate, getCurrentUserData } from './auth.services';
-import { validateInputs } from '../../middlewares/auth';
+import { isAuthenticated, validateInputs } from '../../middlewares/auth';
 
 const authRouter = express.Router();
 
@@ -41,7 +41,7 @@ authRouter.get('/me', async (req, res, next) => {
     }
 });
 
-authRouter.post('/logout', async (req, res, next) => {
+authRouter.post('/logout', isAuthenticated, async (req, res, next) => {
     try {
         req.session.user = undefined;
         const regenerateAsync = promisify(req.session.regenerate).bind(req.session);

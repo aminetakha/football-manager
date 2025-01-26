@@ -2,6 +2,13 @@ import { Button, Group, PasswordInput, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form';
 import classes from './Login.module.css';
 
+const passwordRegex = new RegExp(
+    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#,;()$%^&*-/.])(?=.{8,})',
+);
+const emailRegex = new RegExp(
+    '^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$',
+);
+
 const LogInForm: React.FC<{ onSubmit: (values: { email: string; password: string; }) => void }> = ({ onSubmit }) => {
     const form = useForm({
         mode: 'uncontrolled',
@@ -10,8 +17,8 @@ const LogInForm: React.FC<{ onSubmit: (values: { email: string; password: string
             password: ''
         },
         validate: {
-            email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-            password: value => (/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#,;()$%^&*-/.])(?=.{8,})/.test(value)? null : 'Invalid Password')
+            email: (value) => (emailRegex.test(value) ? null : 'Please provide a valid email.'),
+            password: value => (passwordRegex.test(value)? null : 'Password must have more than 8 characters with lower case, upper case, numbers, and symbols.')
         },
     });
 
