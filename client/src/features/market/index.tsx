@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query"
-import { Card, ComboboxItem } from "@mantine/core";
+import { Box, ComboboxItem } from "@mantine/core";
 import marketApi from "../../api/marketApi"
 import Market from "./components/Market";
 import Filters from "./components/Filters";
@@ -51,14 +51,10 @@ const MarketDashboard = () => {
   }
 
   return (
-    <div>
-      <Card shadow="sm" padding="lg" radius="md">
-        <Card.Section>
-          <Filters selectedTeam={selectedTeam} onTeamChange={onTeamChange} onPlayerChange={onPlayerChange} onPriceChange={onPriceChange} />
-          {isLoading || teamInfo.isLoading? <h1>Loading...</h1> : <Market market={data} userTeamId={teamInfo.data.id} onBuyPlayerHandler={onBuyPlayerHandler} />}
-        </Card.Section>
-      </Card>
-    </div>
+    <Box>
+      <Filters selectedTeam={selectedTeam} onTeamChange={onTeamChange} onPlayerChange={onPlayerChange} onPriceChange={onPriceChange} />
+      {isLoading || teamInfo.isLoading? <h1>Loading...</h1> : <Market market={data} userTeamId={teamInfo.data.id} onBuyPlayerHandler={onBuyPlayerHandler} />}
+    </Box>
   )
 }
 

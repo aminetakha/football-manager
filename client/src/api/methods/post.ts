@@ -1,7 +1,7 @@
-export default async <T, R>(url: string, body: T): Promise<R> => {
+export default async <T, R>(url: string, body?: T): Promise<R> => {
     const response = await fetch(url, {
         method: 'post',
-        body: JSON.stringify(body),
+        body: body? JSON.stringify(body) : undefined,
         headers: {
             'content-type': 'application/json'
         },

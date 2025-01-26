@@ -39,6 +39,20 @@ authRouter.get('/me', async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+});
+
+authRouter.post('/logout', async (req, res, next) => {
+    try {
+        req.session.user = undefined;
+        const regenerateAsync = promisify(req.session.regenerate).bind(req.session);
+        const saveAsync = promisify(req.session.save).bind(req.session);
+
+        await saveAsync();
+        await regenerateAsync();
+        res.status(200).json({ success: true })
+    } catch (error) {
+        next(error)
+    }
 })
 
 export default authRouter

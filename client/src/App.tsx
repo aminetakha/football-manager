@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useQuery } from 'react-query'
-import './App.css'
 import { AuthContext } from './contexts/AuthContext'
 import Router from "./Router"
 import { User } from './types'

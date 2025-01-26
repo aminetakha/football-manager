@@ -1,28 +1,26 @@
 import React from 'react'
-import { Card, Flex, Image, NumberFormatter, Title } from '@mantine/core'
+import { Box, Flex, Image, NumberFormatter, Title } from '@mantine/core'
 import { Team as TeamType } from '../../../types'
 import { apiUrl } from '../../../api/apiUrl'
 import Players from './Players'
 
 const Team: React.FC<{ team: TeamType }> = ({ team }) => {
   return (
-    <div>
+    <Box>
       <Flex justify='space-between' align='center'>
           <Flex align='center' gap='md'>
-            <Image src={`${apiUrl}/logos/${team.badge}`} alt='Football team badge' w={70} h={70} />
+            <Image src={`${apiUrl}/logos/${team.badge}`} alt='Football team badge' w={90} h={90} />
             <Title order={1}>{team.name}</Title>
           </Flex>
           <div>
             <Title order={1}><NumberFormatter value={team.budget} thousandSeparator prefix='$' /></Title>
           </div>
       </Flex>
-      <Card shadow="sm" padding="lg" radius="md">
-        <Card.Section>
-          <Title order={3} fw={400}>Players</Title>
-          <Players players={team.players} />
-        </Card.Section>
-      </Card>
-    </div>
+      <Box mt='lg'>
+        <Title order={3} fw={400} mb='lg'>Team Players</Title>
+        <Players players={team.players} />
+      </Box>
+    </Box>
   )
 }
 

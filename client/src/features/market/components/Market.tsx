@@ -1,6 +1,6 @@
 import React from 'react'
 import { Market as MarketType } from '../../../types'
-import { Badge, Flex, Image, NumberFormatter, Table, Tooltip } from '@mantine/core'
+import { Badge, Button, Flex, Image, NumberFormatter, Table, Tooltip } from '@mantine/core'
 import { apiUrl } from '../../../api/apiUrl'
 
 const Market: React.FC<{ market: MarketType[], userTeamId: number; onBuyPlayerHandler: (data: { playerId: number; outTeamId: number; price: number }) => void; }> = ({ market, userTeamId, onBuyPlayerHandler }) => {
@@ -14,9 +14,13 @@ const Market: React.FC<{ market: MarketType[], userTeamId: number; onBuyPlayerHa
         }
         if(transfer.in_team === null){
             return (
-                <button onClick={() => onBuyPlayerHandler({ outTeamId: transfer.out_team_id!, playerId: transfer.player_id, price: transfer.price })}>
+                <Button
+                    color='red'
+                    variant='outline'
+                    onClick={() => onBuyPlayerHandler({ outTeamId: transfer.out_team_id!, playerId: transfer.player_id, price: transfer.price })}
+                >
                     Buy Player
-                </button>
+                </Button>
             )
         }
     }
@@ -35,7 +39,7 @@ const Market: React.FC<{ market: MarketType[], userTeamId: number; onBuyPlayerHa
             <Table.Td>
                 {transfer.in_team? (
                     <Flex align='center' gap='xs'>
-                        <Image src={`${apiUrl}/logos/${transfer.in_team_badge}`} w={20} h={20} />
+                        <Image src={`${apiUrl}/logos/${transfer.in_team_badge}`} w={25} h={25} />
                         <Tooltip label={transfer.in_team} arrowSize={4}>
                             <span>{transfer.in_team_short}</span>
                         </Tooltip>
@@ -48,7 +52,7 @@ const Market: React.FC<{ market: MarketType[], userTeamId: number; onBuyPlayerHa
     ));
 
     return (
-        <Table highlightOnHover>
+        <Table my='lg'>
             <Table.Thead>
                 <Table.Tr>
                     <Table.Th>Player</Table.Th>

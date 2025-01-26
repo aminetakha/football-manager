@@ -5,7 +5,6 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import { createTheme, MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import App from './App.tsx';
-import './index.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {
