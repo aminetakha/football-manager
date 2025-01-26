@@ -31,21 +31,21 @@ teamsRouter.get('/team-status/:user_id', async (req, res) => {
         const requestId = Number(req.params.user_id);
         const userTeam = await getUserTeamInfo(requestId);
         if(userTeam){
-            res.write(JSON.stringify({ message: 'User already has a team' }));
+            res.write(`data: ${JSON.stringify({ type: 'complete', message: 'User already has a team' })}\n\n`);
             res.end();
             return;
         }
 
         // Close connection if the 'complete' handler never gets called in 60 seconds
         const requestTimeout = setTimeout(() => {
-            res.write(`${JSON.stringify({ message: 'Timeout' })}`);
+            res.write(`data: ${JSON.stringify({ type: 'timeout', message: 'Timeout' })}\n\n`);
             res.end();
             teamCreationEvent.off('complete', handler);
         }, 60_000);
 
         const handler = ({ userId }: { userId: number }) => {
             if(requestId === userId) {
-                res.write(JSON.stringify({ message: 'operation finished successfully' }));
+                res.write(`data: ${JSON.stringify({ type: 'complete', message: 'operation finished successfully' })}\n\n`);
                 res.end();
                 if(requestTimeout) {
                     clearTimeout(requestTimeout)
@@ -62,7 +62,7 @@ teamsRouter.get('/team-status/:user_id', async (req, res) => {
             teamCreationEvent.off('complete', handler);
         })
     } catch (error) {
-        res.write(`${JSON.stringify({ error: "Server error" })}`);
+        res.write(`data: ${JSON.stringify({ type: 'error', error: "Server error" })}\n\n`);
         res.end();
         return;
     }

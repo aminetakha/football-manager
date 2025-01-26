@@ -30,3 +30,17 @@ export const authenticate = async (email: string, password: string): Promise<{ i
     }
     return createUser(email, password);
 }
+
+export const getCurrentUserData = async (userId: number) => {
+    const result = await 
+        db.select()
+        .from(users)
+        .where(eq(users.id, userId))
+        .leftJoin(teams, eq(teams.userId, users.id))
+        .limit(1);
+    if(result.length > 0){
+        const { id, email } = result[0].users;
+        return { id, email, hasTeam: !!result[0].teams }
+    }
+    return null;
+}

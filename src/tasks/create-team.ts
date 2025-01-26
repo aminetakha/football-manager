@@ -22,7 +22,16 @@ const defaultTeamPlayers = [
     },
 ];
 
+const wait = () => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(null);
+        }, 5000)
+    })
+}
+
 process.on('message', async ({ userId }) => {
+    await wait();
     const defaultTeam = defaultTeams[Math.floor(Math.random() * defaultTeamPlayers.length)];
     const team = await db.insert(teams).values({ name: defaultTeam.name, short_name: defaultTeam.short_name, badge: defaultTeam.badge, userId });
     const teamPlayers: { player_name: string; position: string; market_price: number; teamId: number }[] = [];

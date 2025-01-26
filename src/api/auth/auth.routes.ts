@@ -1,6 +1,6 @@
 import express from 'express';
 import { promisify } from 'util'
-import { authenticate } from './auth.services';
+import { authenticate, getCurrentUserData } from './auth.services';
 import { validateInputs } from '../../middlewares/auth';
 
 const authRouter = express.Router();
@@ -27,7 +27,12 @@ authRouter.get('/me', async (req, res, next) => {
     try {
         const user = req.session.user;
         if(user){
-            res.status(200).json({ user });
+            const currentUser = await getCurrentUserData(user?.id);
+            if(!currentUser){
+                res.status(401).json({ message: 'Not authorized' });
+                return;
+            }
+            res.status(200).json({ user: currentUser });
             return;
         }
         res.status(401).json({ message: 'Not authorized' })

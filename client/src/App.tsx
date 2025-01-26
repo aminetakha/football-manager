@@ -12,7 +12,7 @@ const App = () => {
     queryFn: authApi.getMe,
     queryKey: ['me'],
     onSuccess(data) {
-      setUser(data);
+      setUser(data.user);
     },
     retry: false,
   })

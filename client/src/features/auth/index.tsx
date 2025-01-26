@@ -9,7 +9,7 @@ const Login = () => {
 
   const login = useMutation(async (value: LoginValues) => {
     const data = await authApi.login(value);
-    signUser(data);
+    signUser(data.user);
     return data;
   })
 
