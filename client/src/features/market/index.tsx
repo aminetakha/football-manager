@@ -96,7 +96,9 @@ const MarketDashboard = () => {
     outTeamId: number;
     price: number;
   }) => {
-    buyPlayerMutation.mutate({ ...data, inTeamId: teamInfo.data.id });
+    if (teamInfo.data) {
+      buyPlayerMutation.mutate({ ...data, inTeamId: teamInfo.data.id });
+    }
   };
 
   if (error) {
@@ -116,8 +118,8 @@ const MarketDashboard = () => {
           <h1>Loading...</h1>
         ) : (
           <Market
-            market={data}
-            userTeamId={teamInfo.data.id}
+            market={data?.result || []}
+            userTeamId={teamInfo?.data?.id as number}
             onBuyPlayerHandler={onBuyPlayerHandler}
           />
         )}

@@ -2,17 +2,19 @@ import React from "react";
 import {
   Badge,
   Button,
+  Center,
   Flex,
   Image,
   NumberFormatter,
   Table,
+  Text,
   Tooltip,
 } from "@mantine/core";
 import { Market as MarketType } from "../../../types";
 import { apiUrl } from "../../../api/apiUrl";
 
 type MarketProps = {
-  market: { result: MarketType[]; totalCount: number };
+  market: MarketType[];
   userTeamId: number;
   onBuyPlayerHandler: (data: {
     playerId: number;
@@ -52,7 +54,7 @@ const Market: React.FC<MarketProps> = ({
     }
   };
 
-  const rows = market.result.map((transfer) => (
+  const rows = market.map((transfer) => (
     <Table.Tr key={transfer.id}>
       <Table.Td>
         {transfer.player_name} ({transfer.player_position})
@@ -108,7 +110,19 @@ const Market: React.FC<MarketProps> = ({
             <Table.Th></Table.Th>
           </Table.Tr>
         </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
+        <Table.Tbody>
+          {rows.length > 0 ? (
+            rows
+          ) : (
+            <Table.Tr>
+              <Table.Td colSpan={5}>
+                <Center my="lg">
+                  <Text c="dimmed">No players in the market</Text>
+                </Center>
+              </Table.Td>
+            </Table.Tr>
+          )}
+        </Table.Tbody>
       </Table>
     </>
   );

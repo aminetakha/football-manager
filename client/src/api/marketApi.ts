@@ -1,3 +1,4 @@
+import { Market } from "../types";
 import { apiUrl } from "./apiUrl";
 import get from "./methods/get";
 import post from "./methods/post";
@@ -20,22 +21,29 @@ export default {
       url.searchParams.append("price", params.price);
     }
     url.searchParams.append("page", (params?.page || 1).toString());
-    return get(url.toString());
+    return get<{ result: Market[]; totalCount: number }>(url.toString());
   },
   addPlayerToMarket: (data: {
     playerId: number;
     outTeamId: number;
     price: number;
   }) => {
-    return post(`${apiUrl}/api/market/add`, data);
+    return post<typeof data, { message: string }>(
+      `${apiUrl}/api/market/add`,
+      data
+    );
   },
   removePlayerToMarket: (data: { playerId: number; outTeamId: number }) => {
-    return post(`${apiUrl}/api/market/remove`, data);
+    return post<typeof data, { message: string }>(
+      `${apiUrl}/api/market/remove`,
+      data
+    );
   },
   buyPlayer: (data: {
     playerId: number;
     inTeamId: number;
     outTeamId: number;
     price: number;
-  }) => post(`${apiUrl}/api/market/buy`, data),
+  }) =>
+    post<typeof data, { message: string }>(`${apiUrl}/api/market/buy`, data),
 };
