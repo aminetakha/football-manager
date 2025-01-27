@@ -2,7 +2,7 @@ import { aliasedTable, and, eq, inArray, like, lte, or, SQL, sql } from "drizzle
 import { players, teams, transferMarket } from "../../db/schema";
 import { db } from "../../db";
 
-export const getMarketTransfers = async ({ player_name, team_id, price }: { player_name: string | undefined; team_id: number | undefined; price?: number }) => {
+export const getMarketTransfers = async ({ player_name, team_id, price, limit, page }: { player_name: string | undefined; team_id: number | undefined; price?: number, page: number; limit: number }) => {
     const inTeam = aliasedTable(teams, 'in_team');
     const outTeam = aliasedTable(teams, 'out_team');
 
@@ -47,9 +47,19 @@ export const getMarketTransfers = async ({ player_name, team_id, price }: { play
         .leftJoin(inTeam, eq(transferMarket.inTeamId, inTeam.id))
         .leftJoin(outTeam, eq(transferMarket.outTeamId, outTeam.id))
         .leftJoin(players, eq(transferMarket.playerId, players.id))
-        .where(conditions.length > 0? and(...conditions) : undefined);
+        .where(conditions.length > 0? and(...conditions) : undefined)
+        .offset((page - 1) * limit)
+        .limit(limit);
 
-    return result;
+    const totalCount = await db
+        .select({ count: sql<number>`count(*)` })
+        .from(transferMarket)
+        .leftJoin(inTeam, eq(transferMarket.inTeamId, inTeam.id))
+        .leftJoin(outTeam, eq(transferMarket.outTeamId, outTeam.id))
+        .leftJoin(players, eq(transferMarket.playerId, players.id))
+        .where(conditions.length > 0 ? and(...conditions) : undefined)
+    
+    return { result, totalCount: totalCount[0].count };
 }
 
 export const canAddToMarket = async (teamId: number) => {

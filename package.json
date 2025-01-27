@@ -11,7 +11,8 @@
     "drizzle:push": "drizzle-kit push",
     "drizzle:generate": "drizzle-kit generate",
     "drizzle:migrate": "drizzle-kit migrate",
-    "db:migrate": "concurrently \"npm run drizzle:generate\" \"npm run drizzle:migrate\""
+    "db:migrate": "concurrently \"npm run drizzle:generate\" \"npm run drizzle:migrate\"",
+    "db:seed": "tsx ./src/data/seeds.ts"
   },
   "repository": {
     "type": "git",

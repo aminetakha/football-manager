@@ -12,11 +12,13 @@ const marketRouter = Router();
 
 marketRouter.get('/', async (req, res, next) => {
     try {
-        const { player_name, team_id, price } = req.query;
+        const { player_name, team_id, price, page = '1', limit = '10' } = req.query;
         const results = await getMarketTransfers({ 
             player_name: player_name? String(player_name) : undefined,
             team_id: team_id? Number(team_id) : undefined,
-            price: price? Number(price) : undefined
+            price: price? Number(price) : undefined,
+            page: Number(page),
+            limit: Number(limit),
         });
         res.status(200).json(results);
     } catch (error) {
