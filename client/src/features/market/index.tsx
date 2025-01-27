@@ -12,6 +12,7 @@ import Filters from "./components/Filters";
 import useTransferMarketData from "./hooks/useTransferMarketData";
 import useTeamInfo from "./hooks/useTeamInfo";
 import useBuyPlayer from "./hooks/useBuyPlayer";
+import TableSkeleton from "../../components/TableSkeleton";
 
 const MarketDashboard = () => {
   const [selectedTeam, setSelectedTeam] = useState<ComboboxItem | undefined>();
@@ -76,7 +77,7 @@ const MarketDashboard = () => {
       />
       <>
         {isLoading || teamInfo.isLoading ? (
-          <h1>Loading...</h1>
+          <TableSkeleton rows={10} />
         ) : (
           <Market
             market={data?.result || []}
@@ -85,7 +86,7 @@ const MarketDashboard = () => {
           />
         )}
         <Box mt="lg">
-          {isFetching && (
+          {isFetching && !isLoading && (
             <Flex my="lg" justify="center">
               <Loader color="blue" />
             </Flex>

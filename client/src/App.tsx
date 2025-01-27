@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
+import { Box, Flex, Loader } from "@mantine/core";
 import { AuthContext } from "./contexts/AuthContext";
 import Router from "./Router";
 import { User } from "./types";
@@ -23,7 +24,14 @@ const App = () => {
     setUser(value);
   };
 
-  if (getCurrentUser.isLoading) return <h1>Loading...</h1>;
+  if (getCurrentUser.isLoading)
+    return (
+      <Box h="100vh">
+        <Flex justify="center" align="center" h="100%">
+          <Loader color="blue" />
+        </Flex>
+      </Box>
+    );
 
   return (
     <AuthContext.Provider value={{ user, signUser }}>

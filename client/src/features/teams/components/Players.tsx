@@ -8,6 +8,9 @@ const Players: React.FC<{ players: Player[] }> = ({ players }) => {
   const addPlayerToMarket = useAddPlayerToMarket();
   const removePlayerToMarket = useRemovePlayerFromMarket();
 
+  const disableButtons =
+    addPlayerToMarket.isLoading || removePlayerToMarket.isLoading;
+
   const rows = players.map((player) => (
     <Table.Tr key={player.id}>
       <Table.Td>{player.player_name}</Table.Td>
@@ -30,6 +33,7 @@ const Players: React.FC<{ players: Player[] }> = ({ players }) => {
                 playerId: player.id,
               })
             }
+            disabled={disableButtons}
           >
             Remove from market
           </Button>
@@ -44,6 +48,7 @@ const Players: React.FC<{ players: Player[] }> = ({ players }) => {
                 price: player.market_price,
               })
             }
+            disabled={disableButtons}
           >
             Add to market
           </Button>

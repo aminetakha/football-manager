@@ -17,9 +17,9 @@ const queryClient = new QueryClient({
 });
 
 const theme = createTheme({
+  fontFamily: "Poppins, serif",
   headings: {
     fontWeight: "600",
-    fontFamily: "Poppins, serif",
   },
 });
 

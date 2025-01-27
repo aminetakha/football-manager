@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { Box, Loader, Text } from "@mantine/core";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
 import { useAuth } from "../../hooks/useAuth";
 import { apiUrl } from "../../api/apiUrl";
 import Team from "./components/Team";
 import useUserTeam from "./hooks/useUserTeam";
+import TableSkeleton from "../../components/TableSkeleton";
 
 const TeamDasboard = () => {
   const [isCreatingTeam, setIsCreatingTeam] = useState(false);
@@ -41,11 +43,16 @@ const TeamDasboard = () => {
   }, [user]);
 
   return (
-    <div>
-      {isCreatingTeam && <p>Please wait, your team is being created</p>}
-      {team.isLoading && <p>Loading your team</p>}
+    <Box pos="relative">
+      {isCreatingTeam && (
+        <Text c="dimmed">Please wait, your team is being created</Text>
+      )}
+      {team.isLoading && <TableSkeleton rows={10} />}
       {team.data && <Team team={team.data.team} />}
-    </div>
+      {team.isFetching && !team.isLoading && (
+        <Loader color="blue" pos="absolute" top={100} right={0} />
+      )}
+    </Box>
   );
 };
 
