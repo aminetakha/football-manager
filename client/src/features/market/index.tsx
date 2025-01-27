@@ -8,6 +8,7 @@ import {
   Loader,
   Pagination,
 } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import marketApi from "../../api/marketApi";
 import Market from "./components/Market";
 import Filters from "./components/Filters";
@@ -59,6 +60,15 @@ const MarketDashboard = () => {
           page: currentPage,
         })
       );
+    },
+    onError(error: Error) {
+      const errorData = JSON.parse(error.message);
+      notifications.show({
+        message: errorData.message,
+        title: "Error while buying the player",
+        position: "top-right",
+        color: "red",
+      });
     },
   });
 
