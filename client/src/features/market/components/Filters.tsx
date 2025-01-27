@@ -1,8 +1,6 @@
 import { ComboboxItem, Flex, Input, NumberInput, Select } from "@mantine/core";
-import { useQuery } from "react-query";
-import teamApi from "../../../api/teamApi";
-import keys from "../../../api/keys";
 import { debounce } from "../../../api/utils";
+import useAllTeams from "../hooks/useAllTeams";
 
 type FiltersProps = {
   selectedTeam: ComboboxItem | undefined;
@@ -17,10 +15,7 @@ const Filters: React.FC<FiltersProps> = ({
   onPlayerChange,
   onPriceChange,
 }) => {
-  const { data } = useQuery({
-    queryFn: teamApi.getAllTeams,
-    queryKey: keys.allTeamsKey(),
-  });
+  const { data } = useAllTeams();
 
   const debouncePlayerChange = debounce<string>(onPlayerChange);
   const debouncePriceChange = debounce<string>(onPriceChange);

@@ -1,52 +1,12 @@
 import React from "react";
-import { useMutation, useQueryClient } from "react-query";
 import { Button, NumberFormatter, Table } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
 import { Player } from "../../../types";
-import marketApi from "../../../api/marketApi";
-import keys from "../../../api/keys";
-import { useAuth } from "../../../hooks/useAuth";
+import useAddPlayerToMarket from "../hooks/useAddPlayerToMarket";
+import useRemovePlayerFromMarket from "../hooks/useRemovePlayerFromMarket";
 
 const Players: React.FC<{ players: Player[] }> = ({ players }) => {
-  const queryClient = useQueryClient();
-  const { user } = useAuth();
-
-  const addPlayerToMarket = useMutation({
-    mutationFn: (data: {
-      playerId: number;
-      outTeamId: number;
-      price: number;
-    }) => marketApi.addPlayerToMarket(data),
-    onSuccess() {
-      queryClient.invalidateQueries(keys.teamKey(user?.id));
-    },
-    onError(error: Error) {
-      const errorData = JSON.parse(error.message);
-      notifications.show({
-        message: errorData.message,
-        title: "Error while adding player to market",
-        position: "top-right",
-        color: "red",
-      });
-    },
-  });
-
-  const removePlayerToMarket = useMutation({
-    mutationFn: (data: { playerId: number; outTeamId: number }) =>
-      marketApi.removePlayerToMarket(data),
-    onSuccess() {
-      queryClient.invalidateQueries(keys.teamKey(user?.id));
-    },
-    onError(error: Error) {
-      const errorData = JSON.parse(error.message);
-      notifications.show({
-        message: errorData.message,
-        title: "Error while removing player to market",
-        position: "top-right",
-        color: "red",
-      });
-    },
-  });
+  const addPlayerToMarket = useAddPlayerToMarket();
+  const removePlayerToMarket = useRemovePlayerFromMarket();
 
   const rows = players.map((player) => (
     <Table.Tr key={player.id}>

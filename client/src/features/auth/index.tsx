@@ -6,33 +6,14 @@ import {
   Flex,
   Image,
 } from "@mantine/core";
-import { useMutation } from "react-query";
-import { notifications } from "@mantine/notifications";
-import { useAuth } from "../../hooks/useAuth";
 import LogInForm from "./components/Login";
 import { LoginValues } from "../../types";
-import authApi from "../../api/authApi";
 import logo from "../../assets/football-manager.png";
 import backgroundImage from "../../assets/football-manager-bg.png";
+import useLogin from "./hooks/useLogin";
 
 const Login = () => {
-  const { signUser } = useAuth();
-
-  const login = useMutation({
-    mutationFn: (value: LoginValues) => authApi.login(value),
-    onSuccess(data) {
-      signUser(data.user);
-    },
-    onError(error: Error) {
-      const errorData = JSON.parse(error.message);
-      notifications.show({
-        message: errorData.message,
-        title: "Error while login",
-        position: "top-right",
-        color: "red",
-      });
-    },
-  });
+  const login = useLogin();
 
   const onSubmitHandler = (values: LoginValues) => {
     login.mutate(values);

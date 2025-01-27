@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
   Box,
   ComboboxItem,
@@ -8,68 +7,30 @@ import {
   Loader,
   Pagination,
 } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
-import marketApi from "../../api/marketApi";
 import Market from "./components/Market";
 import Filters from "./components/Filters";
-import keys from "../../api/keys";
-import { useAuth } from "../../hooks/useAuth";
-import teamApi from "../../api/teamApi";
+import useTransferMarketData from "./hooks/useTransferMarketData";
+import useTeamInfo from "./hooks/useTeamInfo";
+import useBuyPlayer from "./hooks/useBuyPlayer";
 
 const MarketDashboard = () => {
   const [selectedTeam, setSelectedTeam] = useState<ComboboxItem | undefined>();
   const [selectedPlayer, setSelectedPlayer] = useState<string | undefined>();
   const [priceSearch, setPriceSearch] = useState<string | undefined>();
   const [currentPage, setCurrentPage] = useState(1);
-  const queryClient = useQueryClient();
-  const { user } = useAuth();
 
-  const { isLoading, data, error, isFetching } = useQuery({
-    queryFn: () =>
-      marketApi.getTransferMarketData({
-        playerName: selectedPlayer,
-        price: priceSearch,
-        teamId: selectedTeam?.value,
-        page: currentPage,
-      }),
-    queryKey: keys.marketFilterKey({
-      priceSearch,
-      selectedPlayer,
-      selectedTeam: selectedTeam?.value,
-      page: currentPage,
-    }),
-    keepPreviousData: true,
+  const { isLoading, data, error, isFetching } = useTransferMarketData({
+    currentPage,
+    priceSearch,
+    selectedPlayer,
+    selectedTeam,
   });
-  const teamInfo = useQuery({
-    queryFn: () => teamApi.getUserTeamInfo(user?.id as number),
-    queryKey: keys.userTeamInfoKey(user?.id as number),
-  });
-  const buyPlayerMutation = useMutation({
-    mutationFn: (data: {
-      playerId: number;
-      inTeamId: number;
-      outTeamId: number;
-      price: number;
-    }) => marketApi.buyPlayer(data),
-    onSuccess() {
-      queryClient.invalidateQueries(
-        keys.marketFilterKey({
-          priceSearch,
-          selectedPlayer,
-          selectedTeam: selectedTeam?.value,
-          page: currentPage,
-        })
-      );
-    },
-    onError(error: Error) {
-      const errorData = JSON.parse(error.message);
-      notifications.show({
-        message: errorData.message,
-        title: "Error while buying the player",
-        position: "top-right",
-        color: "red",
-      });
-    },
+  const teamInfo = useTeamInfo();
+  const buyPlayerMutation = useBuyPlayer({
+    currentPage,
+    priceSearch,
+    selectedPlayer,
+    selectedTeam,
   });
 
   const onPageChange = (page: number) => {
